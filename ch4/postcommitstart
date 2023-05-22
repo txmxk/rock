@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "2"
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"builds-for-managers:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"builds-for-managers\")].image"}]'
+    openshift.io/generated-by: OpenShiftNewApp
+  creationTimestamp: "2023-05-22T00:59:15Z"
+  generation: 2
+  labels:
+    app: builds-for-managers
+    app.kubernetes.io/component: builds-for-managers
+    app.kubernetes.io/instance: builds-for-managers
+  name: builds-for-managers
+  namespace: developer-post-commit
+  resourceVersion: "195375"
+  uid: c1f58563-0aa9-4152-a119-ca4770dad8cb
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      deployment: builds-for-managers
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        deployment: builds-for-managers
+    spec:
+      containers:
+      - image: quay.io/redhattraining/builds-for-managers@sha256:663c5800517c3db594537ae7d0f9937ae9f2da1153c3593192a88f109c325c4e
+        imagePullPolicy: IfNotPresent
+        name: builds-for-managers
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2023-05-22T00:59:45Z"
+    lastUpdateTime: "2023-05-22T00:59:45Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2023-05-22T00:59:15Z"
+    lastUpdateTime: "2023-05-22T00:59:45Z"
+    message: ReplicaSet "builds-for-managers-f969b9d55" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
